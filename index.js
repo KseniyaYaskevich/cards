@@ -10,17 +10,6 @@ const getData = async url => {
 
 const checkProperty = item => (item ? `${item}` : 'unknown');
 
-const createMovieItems = arr => {
-    const movies = arr.sort();
-    let res = '';
-
-    for (let i = 0; i < movies.length; i++) {
-        res += `<li class="card__movies-item">${movies[i]}</li>`;
-    }
-
-    return res;
-};
-
 const createElement = data => {
     const elem = document.createElement('li');
     elem.classList.add('cards__item', 'card');
@@ -59,7 +48,7 @@ const createElement = data => {
         <div class="card__movies-wrapper">
             <h3>Movies:</h3>
             <ul class="card__movies">
-                ${data.movies ? createMovieItems(data.movies) : 'none'}
+                ${data.movies ? data.movies.sort().map(el=>'<li class="card__movies-item">'+ el +'</li>').join('') : 'none'}
             </ul>
         </div>
     `);
