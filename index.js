@@ -1,5 +1,7 @@
 const cardsList = document.querySelector('.cards__list');
-const cardsSelect = document.querySelector('.cards__select');
+const moviesSelect = document.querySelector('.cards__select-movies');
+const speciesSelect = document.querySelector('.cards__select-species');
+const statusSelect = document.querySelector('.cards__select-status');
 
 const url = 'dbHeroes.json';
 
@@ -56,42 +58,56 @@ const createElement = data => {
     return elem;
 };
 
-const createSelectOptions = data => {
-    const movies = [];
+const createSelectOptions = (data, type, select) => {
+    const arr = [];
 
     data.forEach(item => {
-        if (item.movies) {
-            for (let i = 0; i < item.movies.length; i++) {
-                if (!movies.includes(item.movies[i].trim())) {
-                    movies.push(item.movies[i].trim());
+        if (item[type]) {
+            if (type === 'movies') {
+                for (let i = 0; i < item[type].length; i++) {
+                    if (!arr.includes(item[type][i].trim())) {
+                        arr.push(item[type][i].trim());
+                    }
+                }
+            } else {
+                if (!arr.includes(item[type].trim())) {
+                    arr.push(item[type].trim());
                 }
             }
         }
     });
 
-    movies.sort();
+    arr.sort();
 
-    movies.forEach(movie => {
+    arr.forEach(item => {
         const elem = document.createElement('option');
-        elem.value = movie;
-        elem.textContent = movie;
+        elem.value = item;
+        elem.textContent = item;
 
-        cardsSelect.append(elem);
+        select.append(elem);
     });
 };
 
-const sortCards = data => {
-    const id = cardsSelect.options[cardsSelect.selectedIndex].value;
-    const moviesByType = [];
+const sortCards = (evt, data) => {
+    const targetType = evt.target.dataset.id;
+    const type = evt.target.options[evt.target.selectedIndex].value;
+
+    const arrByType = [];
 
     cardsList.innerHTML = '';
 
     data.forEach(item => {
-        if (id !== 'all') {
-            if (item.movies) {
-                for (let i = 0; i < item.movies.length; i++) {
-                    if (item.movies[i].trim() === id) {
-                        moviesByType.push(item);
+        if (type !== 'all') {
+            if (item[targetType]) {
+                if (targetType === 'movies') {
+                    for (let i = 0; i < item[targetType].length; i++) {
+                        if (item[targetType][i].trim() === type) {
+                            arrByType.push(item);
+                        }
+                    }
+                } else {
+                    if (item[targetType].trim() === type) {
+                        arrByType.push(item);
                     }
                 }
             }
@@ -100,7 +116,7 @@ const sortCards = data => {
         }
     });
 
-    moviesByType.forEach(item => {
+    arrByType.forEach(item => {
         cardsList.append(createElement(item));
     });
 };
@@ -111,8 +127,12 @@ getData(url)
             cardsList.append(createElement(item));
         });
 
-        createSelectOptions(data);
+        createSelectOptions(data, 'movies', moviesSelect);
+        createSelectOptions(data, 'species', speciesSelect);
+        createSelectOptions(data, 'status', statusSelect);
 
-        cardsSelect.addEventListener('change', () => sortCards(data));
+        moviesSelect.addEventListener('change', (evt) => sortCards(evt, data));
+        speciesSelect.addEventListener('change', (evt) => sortCards(evt, data));
+        statusSelect.addEventListener('change', (evt) => sortCards(evt, data));
     })
     .catch(error => console.log(error));

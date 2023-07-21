@@ -18,9 +18,17 @@
 		<div class="container">
 			<h1 class="page-title">Movie Filter</h1>
 			<section class="cards">
-				<select class="cards__select" name="Movies">
-					<option value="all" selected>Movies</option>
-				</select>
+				<div class="cards__select-wrapper">
+					<select class="cards__select cards__select-movies" data-id="movies" name="Movies">
+						<option value="all" selected>Movies</option>
+					</select>
+					<select class="cards__select cards__select-species" data-id="species" name="Species">
+						<option value="all" selected>Species</option>
+					</select>
+					<select class="cards__select cards__select-status" data-id="status" name="Status">
+						<option value="all" selected>Status</option>
+					</select>
+				</div>
 				<ul class="cards__list">
 				</ul>
 			</section>

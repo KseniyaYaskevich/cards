@@ -57,11 +57,18 @@ img {
   color: var(--color-text--secondary);
 }
 
+.cards__select-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  margin-bottom: 2rem;
+}
+
 .cards__select {
-  width: 100%;
+  display: inline-block;
+  flex: 1;
 
   padding: 1rem;
-  margin-bottom: 2rem;
 }
 
 .cards__list {
@@ -163,6 +170,7 @@ img {
     max-height: 25rem;
   }
 }
+
 @media (min-width:1500px) {
   .cards__list {
     grid-template-columns: repeat(4, 1fr);
