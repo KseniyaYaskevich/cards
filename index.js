@@ -2,6 +2,7 @@ const cardsList = document.querySelector('.cards__list');
 const moviesSelect = document.querySelector('.cards__select-movies');
 const speciesSelect = document.querySelector('.cards__select-species');
 const statusSelect = document.querySelector('.cards__select-status');
+const selectWrapper = document.querySelector('.cards__select-wrapper');
 
 const url = 'dbHeroes.json';
 
@@ -131,8 +132,10 @@ getData(url)
         createSelectOptions(data, 'species', speciesSelect);
         createSelectOptions(data, 'status', statusSelect);
 
-        moviesSelect.addEventListener('change', (evt) => sortCards(evt, data));
-        speciesSelect.addEventListener('change', (evt) => sortCards(evt, data));
-        statusSelect.addEventListener('change', (evt) => sortCards(evt, data));
+        selectWrapper.addEventListener('change', (evt) => {
+            if (evt.target.classList.contains('cards__select')) {
+                sortCards(evt, data);
+            }
+        });
     })
     .catch(error => console.log(error));
